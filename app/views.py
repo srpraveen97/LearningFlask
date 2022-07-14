@@ -1,6 +1,6 @@
 from app import app
 
-from flask import render_template
+from flask import render_template, request, redirect
 from datetime import datetime
 
 @app.template_filter("clean_date")
@@ -55,3 +55,41 @@ def jinja():
 @app.route('/about')
 def about():
     return "<h1 style='color:red'>About!!!</h1>"
+
+@app.route('/sign-up', methods=["GET","POST"])
+def sign_up():
+    
+    if request.method == "POST":
+        
+        req = request.form
+        
+        username = req["username"]
+        email = req.get("email")
+        password = request.form["password"]
+        
+        print(username, email, password)
+
+        
+        return redirect(request.url)
+    
+    return render_template('public/sign_up.html')
+
+users = {
+    "elonmusk" : {"name":"Elon Musk", "bio":"Technology Enterpreneur, Investor, and Engineer","twitter_handle":"@elonmusk"},
+    "gvanrossum" : {"name":"Guido Van Rossum", "bio":"Creator of Python programming language","twitter_handle":"@gvanrossum"},
+    "mitsuhiko" : {"name":"Armin Ronacher", "bio":"Creator of the Flask Framework","twitter_handle":"@mitsuhiko"}
+}
+
+@app.route("/profile/<username>")
+def profile(username):
+    
+    user = None
+    
+    if username in users:
+        user = users[username]
+    
+    return render_template("public/profile.html",user=user,username=username)
+
+@app.route("/multiple/<foo>/<bar>/<baz>")
+def multi(foo, bar, baz):
+          return f'foo is {foo}, bar is {bar}, baz is {baz}'
