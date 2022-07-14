@@ -1,0 +1,146 @@
+{% extends "public/templates/public_templates.html" %}
+
+{% import "macros/input_macros.html" as im %}
+
+{%block title%} Jinja {%endblock%}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Jinja Template</h1>
+            <hr>
+
+            <h4>Variables</h4>
+            <hr>
+            <p>Name: {{my_name}}</p>
+
+            <h4>Looping</h4>
+            <hr>
+            <ul>
+                {% for lang in langs %}
+                <li>{{lang}}</li>
+                {% endfor %}
+            </ul>
+
+
+            <h4>Looping with Index</h4>
+            <hr>
+            <ul>
+                {% for lang in langs %}
+                <li>{{loop.index}}: {{lang}}</li>
+                {% endfor %}
+            </ul>
+
+            <h4>Looping with Index 0</h4>
+            <hr>
+            <ul>
+                {% for lang in langs %}
+                <li>{{loop.index0}}: {{lang}}</li>
+                {% endfor %}
+            </ul>
+
+            <h4>Looping a dict</h4>
+            <hr>
+            <ul>
+                {% for k,v in friends.items() %}
+                <li>{{k}}: {{v}}</li>
+                {% endfor %}
+            </ul>
+
+            <h4>Looping a dictkeys</h4>
+            <hr>
+            <ul>
+                {% for k in friends.keys() %}
+                <li>Keys: {{k}}</li>
+                {% endfor %}
+            </ul>
+
+            <h4>Access list members</h4>
+            <hr>
+            <p>{{langs[0]}}</p>
+
+            <h4>Access class attributes</h4>
+            <hr>
+            <p>{{my_remote.name}}</p>
+
+            <h4>Unpack variables</h4>
+            <hr>
+            {% set a,b = colors %}
+            <p>{{a}}</p>
+            <p>{{b}}</p>
+
+            <h4>Call a function</h4>
+            <hr>
+            <p>{{repeat('Flask is Awesome',5)}}</p>
+
+            <h4>Call a class method</h4>
+            <hr>
+            <p>{{my_remote.clone()}}</p>
+
+            <h4>Create a new class</h4>
+            <hr>
+            {% set my_remote_1 = GitRemote(name='flasktutorial',description='Flask Tutorial on using Jinja',url='https://github.com/srpraveen97/flasktutorial.git') %}
+            <p>{{my_remote_1.pull()}}</p>
+            <p>{{my_remote_1.clone()}}</p>
+
+            <h4>Conditionals</h4>
+            <hr>
+            {% if cool %}
+                <p>Cool is {{ cool }}</p>
+            {% endif %}
+
+            <h4>Comparisons</h4>
+            <hr>
+            {% if age < 18 %}
+            <p>No entry!</p>
+            {% elif age < 26 %}
+            <p>Nearly Old enough!</p>
+            {% else %}
+            <p>You may enter!</p>
+            {% endif %}
+
+            <h4>Math</h4>
+            <hr>
+            <p>{{age/2}}</p>
+
+            <h4>Template Filters</h4>
+            <hr>
+            <p>{{ langs|length }}</p>
+            <p>{{ friends|length }}</p>
+            <p>{{ my_name|reverse }}</p>
+            <p>{{ my_name|upper }}</p>
+
+            <h4>Template Filters Join</h4>
+            <hr>
+            <p>{{ langs|join(', ') }}</p>
+
+            <h4>Custom Filters</h4>
+            <hr>
+            <p>Date: {{ date }}</p>
+            <p>Cleaned Date: {{ date|clean_date }}</p>
+
+            <h4>Escaping</h4>
+            <hr>
+            <p>{{ my_html }}</p>
+            <p>{{ my_html|safe }}</p>
+            <p>{{ suspicious }}</p>
+            <!-- <p>{{ suspicious|safe }}</p> -->
+
+            <h4>Macros</h4>
+            <hr>          
+            
+
+            {{ im.input("Your Name","text","Praveen","name","Please Enter Your Name:") }}
+            {{ im.input("Password","password","password","password","Please Enter Your Password:") }}
+            {{ im.input("Age","number","age","age","Please Enter Your Age:") }}
+
+
+
+
+        </div>
+    </div>
+</div>
+
+{%endblock%}
