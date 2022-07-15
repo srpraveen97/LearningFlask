@@ -1,3 +1,4 @@
+from wsgiref.simple_server import make_server
 from app import app
 
 from flask import render_template, request, redirect, jsonify, make_response
@@ -114,3 +115,17 @@ def json():
     return res
 
 
+@app.route('/guestbook')
+def guestbook():
+    return render_template('public/guestbook.html')
+
+@app.route('/guestbook/create-entry', methods=['POST'])
+def create_entry():
+    
+    req = request.get_json()
+    
+    print(req)   
+    
+    res = make_response(jsonify(req), 200) 
+    
+    return res
