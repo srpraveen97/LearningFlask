@@ -1,4 +1,4 @@
-class Config(object):
+class Config():
     DEBUG = False
     TESTING = False
     
@@ -25,7 +25,6 @@ class DevelopmentConfig(Config):
     UPLOADS = "/home/username/projects/flask_test/app/static/images/uploads"
     
     SESSION_COOKIE_SECURE = False
-    
     
 class TestingConfig(Config):
     TESTING = True
