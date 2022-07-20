@@ -8,7 +8,11 @@ class Config():
     DB_USERNAME = "root"
     DB_PASSWORD = "example"
     
-    UPLOADS = "/home/username/app/app/static/images/uploads"
+    # /mnt/c/Praveen/Projects/FlaskLearning/
+    
+    IMAGE_UPLOADS = "app/static/img/uploads"
+    ALLOWED_IMAGE_EXTENTIONS = ["PNG","JPG","JPEG","GIF"]
+    MAX_CONTENT_LENGTH = 50*1024*1024
     
     SESSION_COOKIE_SECURE = True
     
@@ -16,14 +20,12 @@ class ProductionConfig(Config):
     pass
 
 class DevelopmentConfig(Config):
+    
     DEBUG = True
     
     DB_NAME = "development-db"
     DB_USERNAME = "root"
     DB_PASSWORD = "example"
-    
-    UPLOADS = "/home/username/projects/flask_test/app/static/images/uploads"
-    
     SESSION_COOKIE_SECURE = False
     
 class TestingConfig(Config):

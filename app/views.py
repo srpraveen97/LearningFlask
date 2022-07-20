@@ -4,13 +4,16 @@ from app import app
 from flask import render_template, request, redirect, jsonify, make_response
 from datetime import datetime
 
+from werkzeug.utils import secure_filename
+
+import os
+
 @app.template_filter("clean_date")
 def clean_date(dt):
     return dt.strftime("%d %b %Y")
 
 @app.route('/')
 def index():
-    print(app.config['ENV'])
     return render_template("public/index.html")
 
 @app.route('/jinja')
@@ -144,3 +147,50 @@ def query():
     
     return "No Query received", 200
 
+
+def allowed_image(filename):
+    
+    if not "." in filename:
+        return False
+    
+    ext = filename.rsplit(".",1)[1]
+    
+    if ext.upper() in app.config["ALLOWED_IMAGE_EXTENTIONS"]:
+        return True
+    
+    return False
+    
+
+
+@app.route("/upload-image", methods=['POST','GET'])
+def upload_image():
+    
+    if request.method == "POST":
+        
+        if request.files:
+            
+            image = request.files["image"]
+            
+            if image.filename == "":
+                
+                print("Image must have a filename")
+                
+                return redirect(request.url)
+            
+            if not allowed_image(image.filename):
+                
+                print("That image extension is not valid!")
+                
+                return redirect(request.url)
+            
+            else:
+                
+                filename = secure_filename(image.filename)
+            
+            image.save(os.path.join(app.config["IMAGE_UPLOADS"],filename))
+            
+            print("Image Saved")
+            
+            return redirect(request.url)
+    
+    return render_template("public/upload_image.html")

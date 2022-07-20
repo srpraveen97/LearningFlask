@@ -1,5 +1,6 @@
-from app import appli
+from app import app
 
 if __name__ == "__main__":
-    appli.run()
-
+    app.config["ENV"] = "production"
+    app.run()
+    
